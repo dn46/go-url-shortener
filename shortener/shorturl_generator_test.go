@@ -7,13 +7,13 @@ import (
 )
 
 func TestShortLinkGenerator(t *testing.T) {
-	initialLink_1 := "https://www.guru3d.com/news-story/spotted-ryzen-threadripper-pro-3995wx-processor-with-8-channel-ddr4,2.html"
+	initialLink_1 := "https://gin-gonic.com/docs/examples/html-rendering/"
 	shortLink_1, salt_1 := GenerateShortLink(initialLink_1)
 
-	initialLink_2 := "https://www.eddywm.com/lets-build-a-url-shortener-in-go-with-redis-part-2-storage-layer/"
+	initialLink_2 := "https://gin-gonic.com/docs/examples/bind-form-data-request-with-custom-struct/"
 	shortLink_2, salt_2 := GenerateShortLink(initialLink_2)
 
-	initialLink_3 := "https://spectrum.ieee.org/automaton/robotics/home-robots/hello-robots-stretch-mobile-manipulator"
+	initialLink_3 := "https://gin-gonic.com/docs/examples/bind-single-binary-with-template/"
 	shortLink_3, salt_3 := GenerateShortLink(initialLink_3)
 
 	assert.Equal(t, len(shortLink_1), 8)

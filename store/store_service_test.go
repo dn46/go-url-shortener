@@ -17,7 +17,7 @@ func TestStoreInit(t *testing.T) {
 }
 
 func TestInsertionAndRetrieval(t *testing.T) {
-	initialLink := "https://www.guru3d.com/news-story/spotted-ryzen-threadripper-pro-3995wx-processor-with-8-channel-ddr4,2.html"
+	initialLink := "https://gin-gonic.com/docs/examples/bind-single-binary-with-template/"
 	shortURL := "Jsz4k57oAX"
 	salt := "randomSalt"
 
