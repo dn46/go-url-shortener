@@ -39,11 +39,18 @@ func InitializeStore() *StorageService {
 }
 
 // saving the mapping between the original url and the generated url
-func SaveUrlMapping(shortUrl string, originalUrl string, userID string) {
+func SaveUrlMapping(shortUrl string, originalUrl string, salt string) {
 	err := storeService.redisClient.Set(ctx, shortUrl, originalUrl, CacheDuration).Err()
 
 	if err != nil {
 		panic(fmt.Sprintf("Failed saving key url; Error: %v - shortUrl: %s - originalUrl: %s\n", err, shortUrl, originalUrl))
+	}
+
+	// saving the salt under a key derived from the short url
+	saltKey := "salt:" + shortUrl
+	err = storeService.redisClient.Set(ctx, saltKey, salt, CacheDuration).Err()
+	if err != nil {
+		panic(fmt.Sprintf("Failed saving salt; Error: %v - saltKey: %s - salt: %s\n", err, saltKey, salt))
 	}
 }
 

@@ -1,8 +1,11 @@
 package shortener
 
 import (
+	"crypto/rand"
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
+	"log"
 	"math/big"
 	"os"
 
@@ -13,6 +16,17 @@ func sha256Of(input string) []byte {
 	algorithm := sha256.New()
 	algorithm.Write([]byte(input))
 	return algorithm.Sum(nil)
+}
+
+func generateSalt() string {
+	bytes := make([]byte, 16)
+	_, err := rand.Read(bytes)
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	return hex.EncodeToString(bytes)
 }
 
 func base58Encoded(bytes []byte) string {
@@ -27,9 +41,10 @@ func base58Encoded(bytes []byte) string {
 	return string(encoded)
 }
 
-func GenerateShortLink(initialLink string, userID string) string {
-	urlHashBytes := sha256Of(initialLink + userID)
+func GenerateShortLink(initialLink string) (string, string) {
+	salt := generateSalt()
+	urlHashBytes := sha256Of(initialLink + salt)
 	generatedNumber := new(big.Int).SetBytes(urlHashBytes).Uint64()
 	finalString := base58Encoded([]byte(fmt.Sprintf("%d", generatedNumber)))
-	return finalString[:8] // max 8 characters
+	return finalString[:8], salt // max 8 characters
 }
